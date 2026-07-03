@@ -1,0 +1,26 @@
+import { describe, expect, it } from "vitest";
+import { buildCalendar, fillVacationDates } from "./calendar";
+import { getBaseHolidays } from "./holidays";
+import { defaultConfig } from "./scenarios";
+
+describe("fillVacationDates", () => {
+  it("consumes only eligible workdays", () => {
+    const config = { ...defaultConfig(2026), vacationDays: 5 };
+    const calendar = buildCalendar(config, getBaseHolidays(2026));
+
+    expect(fillVacationDates("2026-10-09", 5, calendar)).toEqual([
+      "2026-10-09",
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15",
+      "2026-10-16",
+    ]);
+  });
+
+  it("rejects starts on weekends", () => {
+    const config = defaultConfig(2026);
+    const calendar = buildCalendar(config, getBaseHolidays(2026));
+
+    expect(fillVacationDates("2026-10-10", 5, calendar)).toEqual([]);
+  });
+});
