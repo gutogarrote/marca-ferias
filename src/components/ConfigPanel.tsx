@@ -11,6 +11,16 @@ type Props = {
 };
 
 export function ConfigPanel({ config, mode, onConfigChange, onModeChange, onSave, onClear }: Props) {
+  const weekdays = [
+    { label: "Seg", value: 1 },
+    { label: "Ter", value: 2 },
+    { label: "Qua", value: 3 },
+    { label: "Qui", value: 4 },
+    { label: "Sex", value: 5 },
+    { label: "Sáb", value: 6 },
+    { label: "Dom", value: 0 },
+  ];
+
   const setNumber = (key: "year" | "vacationDays" | "monthlyPaidLeaves" | "freePaidLeaves", value: string) => {
     onConfigChange({ ...config, [key]: Math.max(0, Number(value)) });
   };
@@ -57,14 +67,14 @@ export function ConfigPanel({ config, mode, onConfigChange, onModeChange, onSave
       <section className="panel-section">
         <h2>Dias de descanso</h2>
         <div className="weekday-toggle">
-          {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"].map((label, index) => (
+          {weekdays.map((weekday) => (
             <button
-              key={label}
-              className={config.weekendDays.includes(index) ? "selected" : ""}
+              key={weekday.label}
+              className={config.weekendDays.includes(weekday.value) ? "selected" : ""}
               type="button"
-              onClick={() => toggleWeekend(index)}
+              onClick={() => toggleWeekend(weekday.value)}
             >
-              {label}
+              {weekday.label}
             </button>
           ))}
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { buildCalendar, fillVacationDates } from "./domain/calendar";
 import { cloneValue } from "./domain/clone";
 import { addDays } from "./domain/date";
@@ -45,6 +45,8 @@ function cloneScenario(scenario: Scenario, name = `${scenario.name} cópia`): Sc
 export default function App() {
   const [mode, setMode] = useState<EditMode>("vacation");
   const [message, setMessage] = useState<string>();
+  const topbarRef = useRef<HTMLElement>(null);
+  const [topbarHeight, setTopbarHeight] = useState(0);
   const [current, setCurrent] = useState<Scenario>(() => {
     try {
       const raw = localStorage.getItem(storageKey);
@@ -98,6 +100,23 @@ export default function App() {
     const timeout = window.setTimeout(() => setMessage(undefined), 3500);
     return () => window.clearTimeout(timeout);
   }, [message]);
+
+  useEffect(() => {
+    const topbar = topbarRef.current;
+    if (!topbar) return;
+
+    const updateTopbarHeight = () => setTopbarHeight(topbar.offsetHeight);
+    updateTopbarHeight();
+
+    const observer = new ResizeObserver(updateTopbarHeight);
+    observer.observe(topbar);
+    window.addEventListener("resize", updateTopbarHeight);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateTopbarHeight);
+    };
+  }, []);
 
   const updateCurrent = (next: Scenario) => setCurrent({ ...next, updatedAt: new Date().toISOString() });
 
@@ -198,8 +217,8 @@ export default function App() {
   ];
 
   return (
-    <div className="app-shell">
-      <header className="topbar">
+    <div className="app-shell" style={{ "--topbar-height": `${topbarHeight}px` } as CSSProperties}>
+      <header className="topbar" ref={topbarRef}>
         <div className="brand-block">
           <span className="eyebrow">Protótipo visual</span>
           <h1>Marca Férias</h1>

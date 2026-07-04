@@ -26,12 +26,16 @@ button {
 }
 
 .app-shell {
+  --topbar-height: 86px;
   min-height: 100vh;
+  padding-top: var(--topbar-height);
 }
 
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 100;
   display: grid;
   grid-template-columns: minmax(170px, auto) minmax(360px, 1fr) auto;
@@ -135,19 +139,20 @@ h2 {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(230px, 280px) minmax(0, 1fr) minmax(270px, 340px);
+  grid-template-columns: minmax(230px, 300px) minmax(0, 1fr) minmax(270px, 360px);
   gap: 16px;
   align-items: start;
   padding: 16px;
+  width: 100%;
 }
 
 .left-panel,
 .right-panel {
   position: sticky;
-  top: 86px;
+  top: calc(var(--topbar-height) + 16px);
   display: grid;
   gap: 12px;
-  max-height: calc(100vh - 104px);
+  max-height: calc(100vh - var(--topbar-height) - 32px);
   overflow: auto;
 }
 
@@ -298,7 +303,7 @@ textarea {
 
 .year-calendar {
   display: grid;
-  grid-template-columns: repeat(3, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
 }
 
@@ -610,7 +615,7 @@ footer {
 
 @media (max-width: 1240px) {
   .workspace-grid {
-    grid-template-columns: 250px minmax(0, 1fr);
+    grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
   }
 
   .right-panel {
@@ -618,10 +623,6 @@ footer {
     grid-column: 1 / -1;
     max-height: none;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .year-calendar {
-    grid-template-columns: repeat(2, minmax(220px, 1fr));
   }
 
   .suggestion-list {
