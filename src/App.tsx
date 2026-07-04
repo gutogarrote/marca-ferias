@@ -46,7 +46,7 @@ export default function App() {
   const [mode, setMode] = useState<EditMode>("vacation");
   const [message, setMessage] = useState<string>();
   const topbarRef = useRef<HTMLElement>(null);
-  const [topbarHeight, setTopbarHeight] = useState(0);
+  const [topbarHeight, setTopbarHeight] = useState(86);
   const [current, setCurrent] = useState<Scenario>(() => {
     try {
       const raw = localStorage.getItem(storageKey);

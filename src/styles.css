@@ -11,8 +11,16 @@
   box-sizing: border-box;
 }
 
+html,
+#root {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 button,
@@ -29,6 +37,7 @@ button {
   --topbar-height: 86px;
   min-height: 100vh;
   padding-top: var(--topbar-height);
+  width: 100%;
 }
 
 .topbar {
@@ -38,10 +47,11 @@ button {
   left: 0;
   z-index: 100;
   display: grid;
-  grid-template-columns: minmax(170px, auto) minmax(360px, 1fr) auto;
+  grid-template-columns: minmax(170px, auto) minmax(320px, 1fr) auto;
   align-items: center;
-  gap: 20px;
-  padding: 18px 24px;
+  gap: 16px;
+  width: 100%;
+  padding: 16px clamp(12px, 2vw, 24px);
   border-bottom: 1px solid #d9e0e7;
   background: rgba(249, 251, 252, 0.98);
   backdrop-filter: blur(14px);
@@ -139,10 +149,10 @@ h2 {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(230px, 300px) minmax(0, 1fr) minmax(270px, 360px);
-  gap: 16px;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) minmax(260px, 340px);
+  gap: clamp(10px, 1.3vw, 16px);
   align-items: start;
-  padding: 16px;
+  padding: clamp(10px, 1.3vw, 16px);
   width: 100%;
 }
 
@@ -152,8 +162,6 @@ h2 {
   top: calc(var(--topbar-height) + 16px);
   display: grid;
   gap: 12px;
-  max-height: calc(100vh - var(--topbar-height) - 32px);
-  overflow: auto;
 }
 
 .panel-section,
@@ -303,7 +311,7 @@ textarea {
 
 .year-calendar {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 12px;
 }
 
@@ -489,7 +497,7 @@ ul {
 .bottom-stack {
   display: grid;
   gap: 16px;
-  padding: 0 16px 16px;
+  padding: 0 clamp(10px, 1.3vw, 16px) 16px;
 }
 
 .bottom-panel {
@@ -615,7 +623,7 @@ footer {
 
 @media (max-width: 1240px) {
   .workspace-grid {
-    grid-template-columns: minmax(230px, 280px) minmax(0, 1fr);
+    grid-template-columns: minmax(220px, 270px) minmax(0, 1fr);
   }
 
   .right-panel {
@@ -637,21 +645,60 @@ footer {
   }
 
   .topbar {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 10px;
+    padding: 9px 10px;
   }
 
   .topbar-mode {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     justify-self: stretch;
     width: 100%;
   }
 
+  .topbar-mode button {
+    min-height: 34px;
+    padding: 7px 5px;
+    font-size: 0.76rem;
+  }
+
   .topbar-status {
-    justify-content: flex-start;
+    justify-content: flex-end;
+  }
+
+  .topbar-status span {
+    display: none;
+  }
+
+  .topbar-status strong {
+    min-height: 28px;
+    padding: 5px 8px;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+
+  .brand-block {
+    min-width: 0;
+  }
+
+  .eyebrow {
+    margin-bottom: 1px;
+    font-size: 0.64rem;
+  }
+
+  h1 {
+    font-size: 1.18rem;
+  }
+
+  h2 {
+    font-size: 0.9rem;
   }
 
   .workspace-grid {
     grid-template-columns: 1fr;
+    padding: 10px;
   }
 
   .left-panel,
@@ -668,5 +715,15 @@ footer {
   .suggestion-list,
   .holiday-form {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1600px) {
+  .workspace-grid {
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr) minmax(280px, 360px);
+  }
+
+  .year-calendar {
+    grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
   }
 }
