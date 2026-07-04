@@ -51,7 +51,7 @@ export function ConfigPanel({ config, mode, onConfigChange, onModeChange, onSave
           Folgas livres
           <input type="number" value={config.freePaidLeaves} min="0" onChange={(event) => setNumber("freePaidLeaves", event.target.value)} />
         </label>
-        <div className="rule-pill">Férias consomem apenas dias úteis</div>
+        <div className="rule-pill">Férias oficiais contam dias corridos</div>
       </section>
 
       <section className="panel-section">

@@ -16,7 +16,7 @@ export const monthNames = [
   "Dezembro",
 ];
 
-export const weekdayShort = ["D", "S", "T", "Q", "Q", "S", "S"];
+export const weekdayShort = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
 export function buildCalendar(config: PlanningConfig, holidays: Holiday[]): CalendarDay[] {
   const holidayByDate = new Map(holidays.map((holiday) => [holiday.date, holiday]));
@@ -63,7 +63,7 @@ export function fillVacationDates(startDate: string | undefined, vacationDays: n
   while (dates.length < vacationDays && guard < 430) {
     const current = iso(pointer);
     const day = byDate.get(current);
-    if (day?.isEligibleWorkday) dates.push(current);
+    if (day) dates.push(current);
     pointer.setDate(pointer.getDate() + 1);
     guard += 1;
   }

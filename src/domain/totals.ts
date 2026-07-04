@@ -33,7 +33,7 @@ export function calculateTotals(scenario: Scenario, calendar: CalendarDay[]): Sc
   }
 
   if (scenario.vacationStartDate && scenario.vacationDates.length < scenario.config.vacationDays) {
-    warnings.push("As férias não consumiram todos os dias configurados no calendário carregado.");
+    warnings.push("As férias não completaram todos os dias corridos configurados no calendário carregado.");
   }
   if (scenario.vacationDates.some((date) => !date.startsWith(String(scenario.config.year)))) {
     warnings.push("O período de férias atravessa o ano selecionado.");

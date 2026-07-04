@@ -4,16 +4,16 @@ import { getBaseHolidays } from "./holidays";
 import { defaultConfig } from "./scenarios";
 
 describe("fillVacationDates", () => {
-  it("consumes only eligible workdays", () => {
+  it("counts consecutive calendar days including weekends and holidays", () => {
     const config = { ...defaultConfig(2026), vacationDays: 5 };
     const calendar = buildCalendar(config, getBaseHolidays(2026));
 
     expect(fillVacationDates("2026-10-09", 5, calendar)).toEqual([
       "2026-10-09",
+      "2026-10-10",
+      "2026-10-11",
+      "2026-10-12",
       "2026-10-13",
-      "2026-10-14",
-      "2026-10-15",
-      "2026-10-16",
     ]);
   });
 

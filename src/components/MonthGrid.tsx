@@ -25,7 +25,7 @@ export function MonthGrid({
   vacationStartDate,
   onDayClick,
 }: Props) {
-  const firstWeekday = days[0]?.weekday ?? 0;
+  const firstWeekday = days[0] ? (days[0].weekday + 6) % 7 : 0;
   return (
     <section className="month-grid" aria-label={monthNames[month - 1]}>
       <header>{monthNames[month - 1]}</header>

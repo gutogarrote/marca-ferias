@@ -14,14 +14,17 @@ describe("calculateTotals", () => {
       vacationStartDate: "2026-10-09",
       vacationDates,
       monthlyLeaveDates: ["2026-10-08"],
-      freeLeaveDates: ["2026-10-16"],
+      freeLeaveDates: ["2026-10-14"],
     };
 
     const totals = calculateTotals(scenario, calendar);
 
+    expect(totals.officialVacationEnd).toBe("2026-10-13");
+    expect(totals.vacationDaysUsed).toBe(5);
     expect(totals.totalBreakStart).toBe("2026-10-08");
-    expect(totals.totalBreakEnd).toBe("2026-10-18");
-    expect(totals.totalContinuousDaysAway).toBe(11);
+    expect(totals.totalBreakEnd).toBe("2026-10-14");
+    expect(totals.totalContinuousDaysAway).toBe(7);
     expect(totals.holidaysIncluded).toContain("2026-10-12 - Nossa Senhora Aparecida");
+    expect(totals.weekendsIncluded).toEqual(["2026-10-10", "2026-10-11"]);
   });
 });

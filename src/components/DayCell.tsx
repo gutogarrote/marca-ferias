@@ -40,7 +40,7 @@ export function DayCell({
     isVacation ? "Férias" : undefined,
     isMonthlyLeave ? "Folga mensal" : undefined,
     isFreeLeave ? "Folga livre" : undefined,
-    day.isEligibleWorkday ? "Dia útil elegível" : "Não consome saldo",
+    isVacation ? "Conta no período oficial" : day.isEligibleWorkday ? "Dia útil elegível" : "Não é dia útil",
     `Modo atual: ${mode === "vacation" ? "Férias" : mode === "monthly" ? "Folga mensal" : "Folga livre"}`,
   ]
     .filter(Boolean)

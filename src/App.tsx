@@ -191,14 +191,31 @@ export default function App() {
   };
 
   const breakRange = totals.totalBreakStart && totals.totalBreakEnd ? `${totals.totalBreakStart} até ${totals.totalBreakEnd}` : "sem intervalo";
+  const modeOptions: Array<{ value: EditMode; label: string }> = [
+    { value: "vacation", label: "Férias" },
+    { value: "monthly", label: "Folga mensal" },
+    { value: "free", label: "Folga livre" },
+  ];
 
   return (
     <div className="app-shell">
       <header className="topbar">
-        <div>
+        <div className="brand-block">
           <span className="eyebrow">Protótipo visual</span>
           <h1>Marca Férias</h1>
         </div>
+        <nav className="topbar-mode" aria-label="Modo de edição">
+          {modeOptions.map((option) => (
+            <button
+              key={option.value}
+              className={mode === option.value ? "active" : ""}
+              type="button"
+              onClick={() => setMode(option.value)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </nav>
         <div className="topbar-status">
           <span>Ano {scenario.config.year}</span>
           <span>São Paulo, SP</span>
@@ -250,8 +267,9 @@ export default function App() {
       </div>
 
       <footer>
-        Regras documentadas no protótipo: férias em dias úteis elegíveis; folgas antes, durante ou depois do período oficial; feriados locais
-        editáveis. Intervalo atual: {breakRange}. Próximo dia após o afastamento: {totals.totalBreakEnd ? addDays(totals.totalBreakEnd, 1) : "-"}.
+        Regras documentadas no protótipo: férias oficiais em dias corridos; folgas antes, durante ou depois do período oficial; feriados
+        locais editáveis. Intervalo atual: {breakRange}. Próximo dia após o afastamento:{" "}
+        {totals.totalBreakEnd ? addDays(totals.totalBreakEnd, 1) : "-"}.
       </footer>
     </div>
   );
