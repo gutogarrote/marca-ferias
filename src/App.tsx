@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { buildCalendar, fillVacationDates } from "./domain/calendar";
+import { cloneValue } from "./domain/clone";
 import { addDays } from "./domain/date";
 import { applyHolidayOverrides, getBaseHolidays } from "./domain/holidays";
+import { createId } from "./domain/id";
 import { suggestVacationStarts } from "./domain/optimizer";
 import { createScenario, defaultConfig, refreshVacation, validateFreeLeave, validateMonthlyLeave } from "./domain/scenarios";
 import { calculateTotals } from "./domain/totals";
@@ -32,8 +34,8 @@ function sortSaved(items: Array<{ scenario: Scenario; totals: ReturnType<typeof 
 
 function cloneScenario(scenario: Scenario, name = `${scenario.name} cópia`): Scenario {
   return {
-    ...structuredClone(scenario),
-    id: crypto.randomUUID(),
+    ...cloneValue(scenario),
+    id: createId(),
     name,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -167,7 +169,7 @@ export default function App() {
   };
 
   const loadScenario = (item: Scenario) => {
-    setCurrent(structuredClone(item));
+    setCurrent(cloneValue(item));
     setMessage("Cenário carregado.");
   };
 

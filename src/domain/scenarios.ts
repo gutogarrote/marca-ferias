@@ -1,5 +1,6 @@
 import { fillVacationDates } from "./calendar";
 import { monthKey } from "./date";
+import { createId } from "./id";
 import type { CalendarDay, PlanningConfig, Scenario } from "./types";
 
 export const defaultConfig = (year = new Date().getFullYear()): PlanningConfig => ({
@@ -15,7 +16,7 @@ export const defaultConfig = (year = new Date().getFullYear()): PlanningConfig =
 export function createScenario(config = defaultConfig(), name = "Cenário A"): Scenario {
   const now = new Date().toISOString();
   return {
-    id: crypto.randomUUID(),
+    id: createId(),
     name,
     config,
     vacationDates: [],
