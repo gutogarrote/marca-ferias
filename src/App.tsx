@@ -44,18 +44,18 @@ export default function App() {
   const [mode, setMode] = useState<EditMode>("vacation");
   const [message, setMessage] = useState<string>();
   const [current, setCurrent] = useState<Scenario>(() => {
-    const raw = localStorage.getItem(storageKey);
-    if (!raw) return createScenario(defaultConfig(2026));
     try {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return createScenario(defaultConfig(2026));
       return (JSON.parse(raw) as StoredState).current;
     } catch {
       return createScenario(defaultConfig(2026));
     }
   });
   const [saved, setSaved] = useState<Scenario[]>(() => {
-    const raw = localStorage.getItem(storageKey);
-    if (!raw) return [];
     try {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return [];
       return (JSON.parse(raw) as StoredState).saved ?? [];
     } catch {
       return [];
@@ -84,7 +84,11 @@ export default function App() {
   }, [saved]);
 
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify({ current, saved }));
+    try {
+      localStorage.setItem(storageKey, JSON.stringify({ current, saved }));
+    } catch {
+      // localStorage indisponível — execução sem persistência
+    }
   }, [current, saved]);
 
   useEffect(() => {
